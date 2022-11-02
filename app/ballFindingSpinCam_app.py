@@ -19,13 +19,12 @@ if (platform.system() == "Windows"):
 else:
     rifFileName          = rifFile.split("/")[-1]
     
-resultDir            = "../result"
-resultRIFSummaryPath = resultDir + "/spinBallFinding"
-resultRIFPath        = resultRIFSummaryPath + "/" + rifFileName
-
 rifResultDir            = rifFile + "/result"
 rifResultImagePath      = rifResultDir + "/spinBallFinding"
 rifResultConsolePath    = rifResultDir + "/spinBallFindingConsole.png"
+
+logDir = "../log"
+fileIO.fileIO_mkdir(logDir)
 
 continueFlag = True
 if ("_server" in rifFile):
@@ -33,30 +32,26 @@ if ("_server" in rifFile):
 elif ("_client" in rifFile):
     inputFile = rifFile + "/spin_client.mkv"
 else:
+    fileIO.fileIO_writeToLog("ERROR: Incorrect RIF file %s. Try again." %(rifFile), True)
     continueFlag = False
-    print("Incorrect RIF file. Try again.")
     
 if (continueFlag == True):
-    fileIO.fileIO_mkdir(resultDir)
-    fileIO.fileIO_mkdir(resultRIFSummaryPath)
-    fileIO.fileIO_mkdir(resultRIFPath)
-    
     fileIO.fileIO_mkdir(rifResultDir)
     fileIO.fileIO_mkdir(rifResultImagePath)
     
     fileIO.fileIO_clearDir(imagePath, fileTypes = [".png"])
     fileIO.fileIO_clearDir(bfProcessedImagePath, fileTypes = [".png"])
     
-    gImgStack = imageConvert.movie2stack(inputFile)
+    gImgStack = imageConvert.imgCnvt_movie2stack(inputFile)
     gImgStackCrop = gImgStack[crop_row : crop_row + crop_height, crop_col : crop_col + crop_width, :]
     
     if ("_server" in inputFile):
         pass
     elif ("_client" in inputFile):
-        gImgStackCrop = imageConvert.imgStackRotate(gImgStackCrop, angle = 180)
+        gImgStackCrop = imageConvert.imgCnvt_imgStackRotate(gImgStackCrop, angle = 180)
         
-    gImgStackScale = imageConvert.imageStackResize(gImgStackCrop, 0.25)
-    imageIO.saveImageSequence(gImgStackScale, imagePath)
+    gImgStackScale = imageConvert.imgCnvt_imageStackResize(gImgStackCrop, 0.25)
+    imageIO.imgIO_saveImageSequence(gImgStackScale, imagePath)
     
     os.chdir("../external/ingame_bf_api/bin")
     os.system("./test_bulk")
@@ -68,9 +63,3 @@ if (continueFlag == True):
     fileIO.fileIO_clearDir(bfProcessedImagePath, fileTypes = [".png"])
     
     spinBF.spinBF_consoleImage(rifResultImagePath, gImgStackCrop, rifResultConsolePath)
-    
-    
-    
-    
-        
-        
