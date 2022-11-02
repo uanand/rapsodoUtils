@@ -84,9 +84,11 @@ def fileIO_mvFile(source, destination):
             fileIO_rmFile(destination)
         if (fileIO_fileExists(source) == True):
             shutil.copy(source, destination)
-            # os.rename(source, destination)
         else:
             print("WARNING: fileIO_mvFile. %s does not exist." %(source))
     except:
         print("ERROR: fileIO_mvFile. Unable to move %s to %s." %(source, destination))
 ###############################################################################
+
+###############################################################################
+# def file
