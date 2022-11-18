@@ -1,6 +1,7 @@
 import os
 import shutil
 import timeUtils
+import platform
 
 ###############################################################################
 def fileIO_mkdir(dirName):
@@ -102,7 +103,7 @@ def fileIO_findSubDir(dirName, recursive = False):
 ###############################################################################
 def fileIO_writeToLog(message, printFlag = False):
     try:
-        f = open("../log/ballFindingSpinCam_app.log", "a+")
+        f = open("../log/process.log", "a+")
         timeStamp = timeUtils.timeUtils_timestamp()
         f.write("%s\t%s\n" %(timeStamp, message))
         f.close()
@@ -111,4 +112,34 @@ def fileIO_writeToLog(message, printFlag = False):
             print(message)
     except:
         print("ERROR: Unable to open log file.")
+###############################################################################
+
+###############################################################################
+def fileIO_selectFilesInDir(dirName, contents):
+    try:
+        fileNameList = []
+        for root, dirs, files in os.walk(dirName):
+            for name in files:
+                for content in contents:
+                    if (content in name):
+                        fileName  = os.path.join(root, name)
+                        fileNameList.append(fileName)
+                        
+        return fileNameList
+    except:
+        fileIO_writeToLog("ERROR: fileIO_selectFilesInDir. %s failed." %(dirName), True)
+        return None
+###############################################################################
+
+###############################################################################
+def fileIO_getFileName(fileNameWithPath):
+    try:
+        if (platform.system() == "Linux"):
+            fileName = fileNameWithPath.split("/")[-1]
+        elif (platform.system() == "Windows"):
+            fileName = fileNameWithPath.split("\\")[-1]
+            
+        return fileName
+    except:
+        fileIO_writeToLog("ERROR: fileIO_getFileName. Unable to get file namee for %s." %(fileNameWithPath), True)
 ###############################################################################
