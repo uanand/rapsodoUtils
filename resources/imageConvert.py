@@ -8,19 +8,16 @@ import fileIO
 
 ###############################################################################
 def imgCnvt_mkv2raw(fileName):
-    mkvName = fileName.split("/")[-1]
-    dirName = fileName.split(mkvName)[0]
-    rawName = dirName + mkvName.replace(".mkv", ".raw")
-    
-    fileIO.fileIO_writeToLog("mkv2raw. Converting %s to %s" %(fileName, rawName), True)
-    
     try:
-        os.system("gst-launch-1.0 filesrc location=%s ! matroskademux name=demux ! queue ! h265parse ! avdec_h265 ! videoconvert ! video/x-raw, format=GRAY16_LE ! filesink location=%s" %(fileName, rawName))
-        message = "Conversion successful"
-    except:
-        message = "Conversion failed"
+        mkvName = fileName.split("/")[-1]
+        dirName = fileName.split(mkvName)[0]
+        rawName = dirName + mkvName.replace(".mkv", ".raw")
         
-    return message
+        fileIO.fileIO_writeToLog("imgCnvt_mkv2raw. Converting %s to %s" %(fileName, rawName), True)
+        
+        os.system("gst-launch-1.0 filesrc location=%s ! matroskademux name=demux ! queue ! h265parse ! avdec_h265 ! videoconvert ! video/x-raw, format=GRAY16_LE ! filesink location=%s" %(fileName, rawName))
+    except:
+        fileIO.fileIO_writeToLog("ERROR. imgCnvt_mkv2raw. Unable to convert %s to raw." %(fileName), True)
 ###############################################################################
 
 ###############################################################################
@@ -107,4 +104,21 @@ def imgCnvt_imgStackRotate(gImgStack, angle):
         return gImgStackRot
     except:
         fileIO.fileIO_writeToLog("ERROR: imgCnvt_imgStackRotate. Unable to rotate image stack by %.2f degrees." %(angle), True)
+###############################################################################
+
+###############################################################################
+def imgCnvt_imgStackNormalize(gImgStack, minInt = 0, maxInt = 255):
+    try:
+        fileIO.fileIO_writeToLog("imgCnvt_imgStackNormalize. Stretching the intensity between %d and %d." %(minInt, maxInt), True)
+        [row, col, numFrames] = gImgStack.shape
+        gImgStackNorm = numpy.zeros([row, col, numFrames], dtype = "uint8")
+        
+        for frame in range(numFrames):
+            gImg = gImgStack[:, :, frame]
+            gImgNorm = ((gImg - gImg.min()) / (gImg.max() - gImg.min()) * (maxInt - minInt) + minInt).astype("uint8")
+            gImgStackNorm[:, :, frame] = gImgNorm
+            
+        return gImgStackNorm
+    except:
+        fileIO.fileIO_writeToLog("imgCnvt_imgStackNormalize. Unable to stretch the intensity between %d and %d." %(minInt, maxInt), True)
 ###############################################################################
