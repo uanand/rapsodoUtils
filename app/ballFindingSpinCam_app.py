@@ -12,6 +12,7 @@ import spinBF
 crop_row, crop_col, crop_height, crop_width = 0, 400, 2048, 2048
 imagePath = "../external/ingame_bf_api/data/imx250"
 bfProcessedImagePath = "../external/ingame_bf_api/bin"
+normalizeFlag = False
 rifFile = sys.argv[1]
 
 if (platform.system() == "Windows"):
@@ -51,6 +52,10 @@ if (continueFlag == True):
         gImgStackCrop = imageConvert.imgCnvt_imgStackRotate(gImgStackCrop, angle = 180)
         
     gImgStackScale = imageConvert.imgCnvt_imageStackResize(gImgStackCrop, 0.25)
+    
+    if (normalizeFlag == True):
+        gImgStackScale = imageConvert.imgCnvt_imgStackNormalize(gImgStackScale)
+        
     imageIO.imgIO_saveImageSequence(gImgStackScale, imagePath)
     
     os.chdir("../external/ingame_bf_api/bin")
