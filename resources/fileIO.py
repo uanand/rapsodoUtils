@@ -87,6 +87,19 @@ def fileIO_mvFile(source, destination):
 ###############################################################################
 
 ###############################################################################
+def fileIO_findSubDir(dirName, recursive = False):
+    try:
+        if (recursive == False):
+            subDirList = []
+            for iter in os.scandir(dirName):
+                if (iter.is_dir()):
+                    subDirList.append(iter.path)
+            return subDirList
+    except:
+        fileIO_writeToLog("ERROR: fileIO_findSubDir. Unable to find subdirectories inside %s." %(dirName), True)
+###############################################################################
+
+###############################################################################
 def fileIO_writeToLog(message, printFlag = False):
     try:
         f = open("../log/ballFindingSpinCam_app.log", "a+")
