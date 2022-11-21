@@ -219,3 +219,4 @@ resources/__pycache__/timeUtils.cpython-310.pyc
 .vscode/settings.json
 batch/batchProcess.sh
 MLM2/imageSeries.sh
+*.pyc
