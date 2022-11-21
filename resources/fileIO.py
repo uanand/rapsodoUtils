@@ -141,5 +141,5 @@ def fileIO_getFileName(fileNameWithPath):
             
         return fileName
     except:
-        fileIO_writeToLog("ERROR: fileIO_getFileName. Unable to get file namee for %s." %(fileNameWithPath), True)
+        fileIO_writeToLog("ERROR: fileIO_getFileName. Unable to get file name for %s." %(fileNameWithPath), True)
 ###############################################################################
