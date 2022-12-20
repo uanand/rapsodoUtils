@@ -3,7 +3,7 @@ import sys
 import numpy
 import matplotlib.pyplot as plt
 
-plt.style.use("uanand")
+plt.style.use('../resources/uanand.mplstyle')
 
 sys.path.append(os.path.abspath('../resources'))
 
