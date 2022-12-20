@@ -123,9 +123,15 @@ def imgCnvt_imgStackNormalize(gImgStack, minInt = 0, maxInt = 255):
         fileIO.fileIO_writeToLog("imgCnvt_imgStackNormalize. Unable to stretch the intensity between %d and %d." %(minInt, maxInt), True)
 ###############################################################################
 
+###############################################################################
 def imgCnvt_normalize(gImg, minInt = 0, maxInt = 255):
     try:
-        gImgNorm = ((gImg - gImg.min()) / (gImg.max() - gImg.min()) * (maxInt - minInt) + minInt).astype("uint8")
+        if (gImg.max() - gImg.min() > 0):
+            gImgNorm = ((gImg - gImg.min()) / (gImg.max() - gImg.min()) * (maxInt - minInt) + minInt).astype("uint8")
+        else:
+            gImgNorm = gImg.copy()
+            gImgNorm[:, :] = 0
         return gImgNorm
     except:
-        fileIO.fileIO_writeToLog("imgCnvt_imgStackNormalize. Unable to stretch the intensity between %d and %d." %(minInt, maxInt), True)
+        fileIO.fileIO_writeToLog("imgCnvt_normalize. Unable to stretch the intensity between %d and %d." %(minInt, maxInt), True)
+###############################################################################
