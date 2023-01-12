@@ -1,6 +1,9 @@
 apt install -y ffmpeg
 
-cd ../external
+cd ..
+mkdir log
+
+cd external
 python3 get-pip.py
 
 cd ../app
