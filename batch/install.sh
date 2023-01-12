@@ -8,6 +8,8 @@ pip3 install imageio
 pip3 install imutils
 pip3 install imageio_ffmpeg
 
+cd ../external
+unzip ingame_bf_api.zip
 cd ../external/ingame_bf_api/bin
 chmod 777 test_bulk
 
