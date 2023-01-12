@@ -60,7 +60,7 @@ def fileIO_fileExists(fileName):
 ###############################################################################
 
 ###############################################################################
-def fileIO_mvDir(sourceDir, destDir, fileTypes):
+def fileIO_cpDir(sourceDir, destDir, fileTypes):
     try:
         for root, dirs, files in os.walk(sourceDir):
             for name in files:
@@ -68,23 +68,23 @@ def fileIO_mvDir(sourceDir, destDir, fileTypes):
                     if (fileType in name):
                         sourceFileName = os.path.join(root, name)
                         destFileName   = destDir + "/" + name
-                        fileIO_mvFile(sourceFileName, destFileName)
+                        fileIO_cpFile(sourceFileName, destFileName)
     except:
-        fileIO_writeToLog("ERROR: fileIO_mvDir. Unable to move files from %s to %s." %(sourceDir, destDir), True)
+        fileIO_writeToLog("ERROR: fileIO_cpDir. Unable to copy files from %s to %s." %(sourceDir, destDir), True)
 ###############################################################################
 
 ###############################################################################
-def fileIO_mvFile(source, destination):
+def fileIO_cpFile(source, destination):
     try:
         if (fileIO_fileExists(destination) == True):
-            fileIO_writeToLog("WARNING: fileIO_mvFile. %s already exists. Deleting it." %(destination))
+            fileIO_writeToLog("WARNING: fileIO_cpFile. %s already exists. Deleting it." %(destination))
             fileIO_rmFile(destination)
         if (fileIO_fileExists(source) == True):
             shutil.copy(source, destination)
         else:
-            fileIO_writeToLog("WARNING: fileIO_mvFile. %s does not exist." %(source))
+            fileIO_writeToLog("WARNING: fileIO_cpFile. %s does not exist." %(source))
     except:
-        fileIO_writeToLog("ERROR: fileIO_mvFile. Unable to move %s to %s." %(source, destination), True)
+        fileIO_writeToLog("ERROR: fileIO_cpFile. Unable to move %s to %s." %(source, destination), True)
 ###############################################################################
 
 ###############################################################################
