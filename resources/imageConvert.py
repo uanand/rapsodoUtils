@@ -7,12 +7,15 @@ import cv2
 import fileIO
 
 ###############################################################################
-def imgCnvt_mkv2raw(fileName):
+def imgCnvt_mkv2raw(fileName, rawFileName = None):
     try:
         mkvName = fileName.split("/")[-1]
         dirName = fileName.split(mkvName)[0]
-        rawName = dirName + mkvName.replace(".mkv", ".raw")
-        
+        if (rawFileName == None):
+            rawName = dirName + mkvName.replace(".mkv", ".raw")
+        else:
+            rawName = dirName + rawFileName
+            
         fileIO.fileIO_writeToLog("imgCnvt_mkv2raw. Converting %s to %s" %(fileName, rawName), True)
         
         os.system("gst-launch-1.0 filesrc location=%s ! matroskademux name=demux ! queue ! h265parse ! avdec_h265 ! videoconvert ! video/x-raw, format=GRAY16_LE ! filesink location=%s" %(fileName, rawName))
