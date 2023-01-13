@@ -15,7 +15,7 @@ elif (platform.system() == "Linux"):
 pythonScript = sys.argv[1]
 dataDir = sys.argv[2]
 windowsFileName = "batchProcess.bat"
-linuxFileName   = "batchProcess.sh
+linuxFileName   = "batchProcess.sh"
 
 if (platform.system() == "Windows"):
     f = open(windowsFileName, "w")
