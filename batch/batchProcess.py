@@ -38,5 +38,5 @@ if (platform.system() == "Windows"):
     subprocess.call([windowsFileName])
     fileIO.fileIO_rmFile(windowsFileName)
 elif (platform.system() == "Linux"):
-    os.system(linuxFileName)
+    os.system("bash %s" %(linuxFileName))
     fileIO.fileIO_rmFile(linuxFileName)
