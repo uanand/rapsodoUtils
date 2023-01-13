@@ -12,8 +12,11 @@ pip3 install imutils
 pip3 install imageio_ffmpeg
 
 cd ../external
+
+chmod 755 splitSpinCamRaw
+
 unzip ingame_bf_api.zip
-cd ../external/ingame_bf_api/bin
-chmod 777 test_bulk
+cd ingame_bf_api/bin
+chmod 755 test_bulk
 
 cd ../../../batch
