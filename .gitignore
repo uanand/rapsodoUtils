@@ -220,3 +220,5 @@ resources/__pycache__/timeUtils.cpython-310.pyc
 batch/batchProcess.sh
 MLM2/imageSeries.sh
 *.pyc
+log/process.log
+*.png
